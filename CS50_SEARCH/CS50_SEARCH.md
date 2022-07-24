@@ -5,22 +5,33 @@
 ## TERMS
 
 - [ ] Agent
-  
+
   An entity that perceives its environment and acts upon that environment.					<img src="CS50_SEARCH.assets/15puzzle.png" alt="15 puzzle" style="zoom:25%;" />
-  
+
 - [ ] State
+
   - A configuration of an agent in its environment.
+
 - [ ] Actions
+
   - Choices that can be made in a state. More precisely, actions can be defined as a function. Upon receiving state `s` as input, `Actions(s)` returns as output the set of actions that can be executed in state `s` .
+
 - [ ] Transition Model
+
   - A description of what state results from performing any applicable action in any state. More precisely, the transition model can be defined as a function. Upon receiving state `s` and action `a` as input, `Results(s,a)` returns the state resulting from performing action `a` in state `s`.
+
 - [ ] State Space
+
   - The set of all states reachable from the initial state by any sequence of actions.
-  
+
   <img src="CS50_SEARCH.assets/statespace.png" alt="State Space" style="zoom:67%;" />
+
 - [ ] Goal Test
+
   - The condition that determines whether a given state is a goal state.
+
 - [ ] Path Cost
+
   - A numerical cost associated with a given path.
 
 - [ ] Solution
@@ -85,3 +96,28 @@ def remove(self):
 **Breadth-First Search**
 
 The opposite of depth-first search would be breath-first search.
+
+A *breadth-first* search algorithm will follow multiple directions at the same time, taking one step in each possible direction before taking the second step in each direction. In this case, the frontier is managed as a *queue* data structure. "*first-in first-out*".
+
+- Pros:
+  - this algorithm is guaranteed to find the optimal solution.
+- Cons:
+  - This algorithm is almost guaranteed to take longer than the minimal time to run.
+  - At worst, this algorithm takes the longest possible time to run.
+
+Code example:
+
+```python
+# Define the function that removes a node from the frontier and returns it.
+    def remove(self):
+    	  # Terminate the search if the frontier is empty, because this means that there is no solution.
+        if self.empty():
+            raise Exception("empty frontier")
+        else:
+            # Save the oldest item on the list (which was the first one to be added)
+            node = self.frontier[0]
+            # Save all the items on the list besides the first one (i.e. removing the first node)
+            self.frontier = self.frontier[1:]
+            return node
+```
+
