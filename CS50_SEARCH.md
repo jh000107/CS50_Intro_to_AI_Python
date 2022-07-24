@@ -59,3 +59,29 @@ Else,
 In the previous description of the *frontier*, one thing went unmentioned. Which node should be removed? This choice has implications on the quality of the solution and how fast it is achieved. There are multiple ways, two of which can be represented by the data structures of **stack**(in depth-first search) and **queue**(breadth-first search)
 
 A *depth-first* search algorithm exhausts each one direction before trying another direction. In these cases, the frontier is managed as a *stack* data structure. "*Last-in first-out*". This results in a search algorithm that goes as deep as possible in the first direction that gets in its way while leaving all other directions for later.
+
+- Pros:
+  - At best, this algorithm is the fastest. If we are lucky and it always chooses the right path to the solution, then it takes the least possible time to get to a solution.
+- Cons:
+  - It is possible that the found solution is not optimal.
+  - At worst, this algorithm will explore every possible path before finding the solution, thus taking the longest possible time before reaching the solution.
+
+Code example:
+
+```python
+# Define the function that removes a node from the frontier and returns it.
+def remove(self):
+    #T Terminate the search if the frontier is empty, because this means that there is no solution.
+    if self.empty():
+        raise Exception("empty frontier")
+    else:
+       	# Save the last item in the list (which is the newest node added)
+        node = self.frontier[-1]
+        # Save all the items on the list besides the last node (i.e removing the last node)
+        self.frontier = self.frontier[:-1]
+        return node
+```
+
+**Breadth-First Search**
+
+The opposite of depth-first search would be breath-first search.
