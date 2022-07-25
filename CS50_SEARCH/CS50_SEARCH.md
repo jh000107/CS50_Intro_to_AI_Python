@@ -121,3 +121,8 @@ Code example:
             return node
 ```
 
+**Greedy Best-First Search**
+
+Breadth-first and depth-first are both **uninformed** search algorithms, meaning that these algorithms do not utilize any knowledge about the problem that they did not acquire through their own exploration. A type of algorithm that considers additional knowledge to try to improve its performance is called an **informed** search algorithm.
+
+**Greedy best-first** search expands the node that is the closest to the goal, as determined by a **heuristic function** *h(n)*.
