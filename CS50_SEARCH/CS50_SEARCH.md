@@ -137,3 +137,17 @@ For A* search to be optimal, the heuristic function, h(n), should be:
 
 1. *Admissible*, or never overestimating the true cost, and
 2. *Consistent*, which means that the estimated path cost to the goal of a new node in addition to the cost of transitioning it from the previous node is greater or equal to the estimated path cost to the goal of the previous node. To put it an equation form, *h(n)* is consistent if for every node *n* and successor node *n'* with step cost *c*, *h(n) <= h(n')+c*
+
+#### Adversarial Search
+
+In **adversarial search**, the algorithm faces an opponent that tries to achieve the opposite goal. Often, AI that uses adversarial search is encountered in games, such as tic tac toe.
+
+**Minimax**
+
+A type of algorithm in adversarial search, Minimax represents winning conditions as (-1) for one side and (+1) for the other side. Further actions will be driven by these conditions,
+
+**Representing a Tic-Tac-Toe AI:**
+
+- *S₀*: Initial state (in our case, an empty 3X3 board)
+- 
+
