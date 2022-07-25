@@ -125,4 +125,15 @@ Code example:
 
 Breadth-first and depth-first are both **uninformed** search algorithms, meaning that these algorithms do not utilize any knowledge about the problem that they did not acquire through their own exploration. A type of algorithm that considers additional knowledge to try to improve its performance is called an **informed** search algorithm.
 
-**Greedy best-first** search expands the node that is the closest to the goal, as determined by a **heuristic function** *h(n)*.
+**Greedy best-first** search expands the node that is the closest to the goal, as determined by a **heuristic function** *h(n)*. The function estimates how close to the goal the next node is, but it can be mistaken. In a maze, an algorithm can use a heuristic function that relies on the **Manhattan distance** between the possible nodes and the end of the maze. The *Manhattan distance* ignores walls and counts how many steps it would take to get from one location to the goal location. 
+
+![Manhattan Distance](CS50_SEARCH.assets/manhattandistance.png)
+
+**A* Search**
+
+A development of the *greedy best-first* algorithm, *A* search* considers not only *h(n)*, the estimated cost from the current location to the goal, but also *g(n)*, the cost that was accrued until the current location. By combining both these values, the algorithm has a more accurate way of determining the cost of the solution and optimizing its choices on the go. Once it exceeds the estimated cost of some previous option, the algorithm will ditch the current path and go back to the previous option, thus preventing itself from going down a long, inefficcient path that *h(n)* erroneously marked as best.
+
+For A* search to be optimal, the heuristic function, h(n), should be:
+
+1. *Admissible*, or never overestimating the true cost, and
+2. *Consistent*, which means that the estimated path cost to the goal of a new node in addition to the cost of transitioning it from the previous node is greater or equal to the estimated path cost to the goal of the previous node. To put it an equation form, *h(n)* is consistent if for every node *n* and successor node *n'* with step cost *c*, *h(n) <= h(n')+c*
