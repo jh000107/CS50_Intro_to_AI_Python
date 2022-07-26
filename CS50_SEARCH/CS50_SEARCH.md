@@ -195,3 +195,16 @@ To put it in pseudocode, the Minimax algorithm works the following way:
      *v = Min(v, Max-Value(Result(state, action)))*
 
     return *v*
+
+**Alpha-Beta Pruning**
+
+A way to optimize Minimax, Alpha-Beta Pruning skips some of the recursive computations that are decidedly unfavorable. After establishing the value of one action, if there is initial evidence that the following action can bring the opponent to get to a better score than the already established action, there is no need to further investigate this action.
+
+![Alpha Beta Pruning](CS50_SEARCH.assets/alphabeta.png)
+
+
+
+**Depth-Limited Minimax**
+
+**Depth-limited Minimax** considers only a pre-defined number of moves before it stops, without ever getting to a terminal state. However, this doesn't allow for getting a precise value for each action, since the end of the hypothetical games has not been reached. To deal with this problem, Depth-limited Minimax relies on an **evaluation function** that estimates the expected utility of the game from a given state, or, assigns values to states. 
+
