@@ -160,3 +160,38 @@ A type of algorithm in adversarial search, Minimax represents winning conditions
 Recursively, the algorithm simulates all possible games that can take place beginning at the current state and until a terminal state is reached. Each terminal state is valued as either (-1), 0, or (+1).
 
 ![Minimax in Tic Tac Toe](CS50_SEARCH.assets/minimax_tictactoe.png)
+
+To put it in pseudocode, the Minimax algorithm works the following way:
+
+- Given a state *s*
+
+  - The maximizing player picks action *a* in *Actions(s)* that produces the highest value of *Min-Value(Result(s, a))*.
+  - The minimizing player picks action *a* in *Actions(s)* that produces the lowest value of *Max-Value(Result(s, a))*.
+
+- Function *Max-Value(state)*
+
+  - *v = -∞*
+
+  - if *Terminal(state)*:
+
+     return *Utility(state)*
+
+  - for *action* in *Actions(state)*:
+
+     *v = Max(v, Min-Value(Result(state, action)))*
+
+    return *v*
+
+- Function *Min-Value(state)*:
+
+  - *v = ∞*
+
+  - if *Terminal(state)*:
+
+     return *Utility(state)*
+
+  - for *action* in *Actions(state)*:
+
+     *v = Min(v, Max-Value(Result(state, action)))*
+
+    return *v*
