@@ -45,15 +45,18 @@ def actions(board):
                 action.append((i,j))
     return action
 
-print(actions(initial_state()))
-
 
 def result(board, action):
     """
     Returns the board that results from making move (i, j) on the board.
     """
-    raise NotImplementedError
-
+    new_board = board
+    i,j = action
+    if board[i][j] is not EMPTY:
+        raise Exception("Not Available")
+    else:
+        new_board[i][j] = player(board)
+    return new_board
 
 def winner(board):
     """
