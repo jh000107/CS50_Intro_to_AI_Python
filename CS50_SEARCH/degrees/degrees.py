@@ -115,13 +115,14 @@ def shortest_path(source, target):
                 if child.state == target:
                     path = []
                     while child.parent is not None:
-                        path.append((child.movie,child.person))
-                        
-        
+                        path.append((child.action,child.state))
+                        child = child.parent
+                    path.reverse()
+                    return path
+                else:
+                    frontier.add(child)
+        explored.add(node.state)
 
-
-    # TODO
-    raise NotImplementedError
 
 
 def person_id_for_name(name):
