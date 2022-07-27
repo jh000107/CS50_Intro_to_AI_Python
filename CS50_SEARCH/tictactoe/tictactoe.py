@@ -22,8 +22,17 @@ def player(board):
     """
     Returns player who has the next turn on a board.
     """
-    raise NotImplementedError
 
+    num_moves = 0
+    for i in range(3):
+        for j in range(3):
+            if board[i][j] is not None:
+                num_moves += 1
+    # If total number of moves made is even, X's turn, else, O's turn
+    if num_moves%2 == 0:
+        return X
+    else:
+        return O
 
 def actions(board):
     """
