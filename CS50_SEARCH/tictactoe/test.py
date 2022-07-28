@@ -6,5 +6,6 @@ initial = [[EMPTY, EMPTY, EMPTY],
             [EMPTY, EMPTY, EMPTY],
             [EMPTY, EMPTY, EMPTY]]
 
-if initial[0][0] is None:
-    print("YAY")
+tuple = (1,2)
+i,j = tuple
+print(i,j)

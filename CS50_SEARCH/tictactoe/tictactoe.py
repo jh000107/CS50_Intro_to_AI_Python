@@ -62,7 +62,14 @@ def winner(board):
     """
     Returns the winner of the game, if there is one.
     """
-    raise NotImplementedError
+    # Pseudocode: 
+    # horizontal: write a loop that contains a variable that keeps track of just the row number. Then, define another variable, j, which represents the col num that
+    #             relies on i
+    # vertical: same mechanism, the difference is that it is the reverse of what horizontal does.
+    # diagonal: make j same as i
+
+        
+        
 
 
 def terminal(board):
