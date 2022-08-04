@@ -68,7 +68,8 @@ def winner(board):
     # vertical: same mechanism, the difference is that it is the reverse of what horizontal does.
     # diagonal: make j same as i
 
-        
+    for i in range(3):
+
         
 
 
