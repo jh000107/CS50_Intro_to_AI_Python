@@ -58,20 +58,32 @@ def result(board, action):
         new_board[i][j] = player(board)
     return new_board
 
+
 def winner(board):
     """
     Returns the winner of the game, if there is one.
     """
-    # Pseudocode: 
-    # horizontal: write a loop that contains a variable that keeps track of just the row number. Then, define another variable, j, which represents the col num that
-    #             relies on i
-    # vertical: same mechanism, the difference is that it is the reverse of what horizontal does.
-    # diagonal: make j same as i
-
-    for i in range(3):
-
-        
-
+    # horizontal check
+    for player in (X,O):
+        for row in board:
+            if row == [player] * 3:
+                return player
+    # vertical check
+        for i in range(3):
+            column = []
+            for j in range(3):
+                column.append(board[i][j])
+            if  column == [player] * 3:
+                return player
+    # diagonal check
+        diag = []
+        diag_rev = []
+        for i in range(3):
+            diag.append(board[i][i])
+            diag_rev.append[board[2-i][i]]
+        if diag == [player]*3 or diag_rev == [player]*3:
+            return player
+    return None
 
 def terminal(board):
     """
