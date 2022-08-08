@@ -67,3 +67,17 @@ Logical connectives are logical symbols that connect propositional symbols in or
 
 There are two types of Or: an inclusive Or and an exclusive Or. An exclusive Or requires only one of its arguments to be true and not both. In the case of Or (∨), the intention is an inclusive Or.
 
+> * The exclusive Or is often shortened to XOR and a common symbol for it is ⊕).
+
+
+
+* **Implication (→)** represents a structure of "if P then Q." P is called the **antecedent** and Q is called the *consequent*.
+
+When the **antecedent** is true, the whole implication is true in the case that the **consequent** is true (that makes sense: if it is raining and I’m indoors, then the sentence “if it is raining, then I’m indoors” is true). When the **antecedent** is true, the implication is false if the **consequent** is false (if I’m outside while it is raining, then the sentence “If it is raining, then I’m indoors” is false). However, when the **antecedent** is false, the implication is always true, regardless of the **consequent**. This can sometimes be a confusing concept. Logically, we can’t learn anything from an implication (P → Q) if the **antecedent** (P) is false. Looking at our example, if it is not raining, the implication doesn’t say anything about whether I’m indoors or not. I could be an indoors type and never walk outside, even when it is not raining, or I could be an outdoors type and be outside all the time when it is not raining. When the antecedent is false, we say that the implication is *trivially* true.
+
+| P     | Q     | P → Q |
+| ----- | ----- | ----- |
+| false | false | true  |
+| false | true  | true  |
+| true  | false | false |
+| true  | true  | true  |
