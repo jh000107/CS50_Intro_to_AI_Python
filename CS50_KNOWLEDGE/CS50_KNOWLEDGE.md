@@ -81,3 +81,31 @@ When the **antecedent** is true, the whole implication is true in the case that 
 | false | true  | true  |
 | true  | false | false |
 | true  | true  | true  |
+
+* **Biconditional (↔)** is an implication that goes both directions. You can read it as "if and only if."  P ↔ Q is the same as P → Q and Q → P taken together. This means that we can infer more than we could with a simple implication. If P is false, then Q is also false.
+
+| P     | Q     | P ↔ Q |
+| ----- | ----- | ----- |
+| false | false | true  |
+| false | true  | false |
+| true  | false | false |
+| true  | true  | true  |
+
+**Model**
+
+The model is an assignment of a truth value to every proposition. To reiterate, propositions are statements about the world that can be either true or false. However, knowledge about the world is represented in the truth values of these propositions. The model is the truth-value assignment that provides information about the world.
+
+**Knowledge Base (KB)**
+
+the knowledge base is a set of sentences known by a knowledge-based agent. This is knowledge that the AI is provided about the world in the form of propositional logic sentences that can be used to make additional inferences about the world.
+
+**Entailment (⊨)**
+
+If α ⊨ β (α entails β), then in any world where α is true, β is true, too.
+
+
+
+## Inference
+
+Inference is the process of deriving new sentences from old ones.
+
