@@ -109,3 +109,68 @@ If α ⊨ β (α entails β), then in any world where α is true, β is true, to
 
 Inference is the process of deriving new sentences from old ones.
 
+For instance, in the Harry Potter example earlier, sentences 4 and 5 were inferred from sentences 1, 2, and 3.
+
+There are multiple ways to infer new knowledge based on existing knowledge. First, we will consider the **Model Checking** algorithm.
+
+* To determine if KB ⊨ α (in other words, answering the question: “can we conclude that α is true based on our knowledge base”)
+  * Enumerate all possible models.
+  * If in every model where KB is true, α is true as well, then KB entails α (KB ⊨ α).
+
+Consider the following example:
+
+P: It is a Tuesday. Q: It is raining. R: Harry will go for a run. KB: (P ∧ ¬Q) → R (in words, P and not Q imply R) P (P is true) ¬Q (Q is false) Query: R (We want to know whether R is true or false; Does KB ⊨ R?)
+
+To answer the query using the Model Checking algorithm, we enumerate all possible models.
+
+| P     | Q     | R     | KB   |
+| ----- | ----- | ----- | ---- |
+| false | false | false |      |
+| false | false | true  |      |
+| false | true  | false |      |
+| false | true  | true  |      |
+| true  | false | false |      |
+| true  | false | true  |      |
+| true  | true  | false |      |
+| true  | true  | true  |      |
+
+Then, we go through every model and check whether it is true given our Knowledge Base.
+
+First, in our KB, we know that P is true. Thus, we can say that the KB is false in all models where P is not true.
+
+| P     | Q     | R     | KB    |
+| ----- | ----- | ----- | ----- |
+| false | false | false | false |
+| false | false | true  | false |
+| false | true  | false | false |
+| false | true  | true  | false |
+| true  | false | false |       |
+| true  | false | true  |       |
+| true  | true  | false |       |
+| true  | true  | true  |       |
+
+Next, similarly, in our KB, we know that Q is false. Thus, we can say that the KB is false in all models where Q is true.
+
+| P     | Q     | R     | KB    |
+| ----- | ----- | ----- | ----- |
+| false | false | false | false |
+| false | false | true  | false |
+| false | true  | false | false |
+| false | true  | true  | false |
+| true  | false | false |       |
+| true  | false | true  |       |
+| true  | true  | false | false |
+| true  | true  | true  | false |
+
+Finally, we are left with two models. In both, P is true and Q is false. In one model R is true and in the other R is false. Due to (P ∧ ¬Q) → R being in our KB, we know that in the case where P is true and Q is false, R must be true. Thus, we say that our KB is false for the model where R is false, and true for the model where R is true.
+
+| P     | Q     | R     | KB    |
+| ----- | ----- | ----- | ----- |
+| false | false | false | false |
+| false | false | true  | false |
+| false | true  | false | false |
+| false | true  | true  | false |
+| true  | false | false | false |
+| true  | false | true  | true  |
+| true  | true  | false | false |
+| true  | true  | true  | false |
