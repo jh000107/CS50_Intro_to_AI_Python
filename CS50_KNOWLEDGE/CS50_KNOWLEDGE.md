@@ -174,3 +174,71 @@ Finally, we are left with two models. In both, P is true and Q is false. In one 
 | true  | false | true  | true  |
 | true  | true  | false | false |
 | true  | true  | true  | false |
+
+Next, let’s look at how knowledge and logic can be represented as code.
+
+```python
+from logic import *
+
+# Create new classes, each having a name, or a symbol, representing each proposition.
+rain = Symbol("rain")  # It is raining.
+hagrid = Symbol("hagrid")  # Harry visited Hagrid
+dumbledore = Symbol("dumbledore")  # Harry visited Dumbledore
+
+# Save sentences into the KB
+knowledge = And(  # Starting from the "And" logical connective, becasue each proposition represents knowledge that we know to be true.
+
+    Implication(Not(rain), hagrid),  # ¬(It is raining) → (Harry visited Hagrid)
+
+    Or(hagrid, dumbledore),  # (Harry visited Hagrid) ∨ (Harry visited Dumbledore).
+
+    Not(And(hagrid, dumbledore)),  # ¬(Harry visited Hagrid ∧ Harry visited Dumbledore) i.e. Harry did not visit both Hagrid and Dumbledore.
+
+    dumbledore  # Harry visited Dumbledore. Note that while previous propositions contained multiple symbols with connectors, this is a proposition consisting of one symbol. This means that we take as a fact that, in this KB, Harry visited Dumbledore.
+    )
+```
+
+To run the Model Checking algorithm, the following information is needed:
+
+* Knowledge Base, which will be used to draw inferences
+* A query, or the proposition that we are interested in whether it is entailed by the KB
+* Symbols, a list of all the symbols (or atomic propositions) used (in our case, these are `rain`, `hagrid`, and `dumbledore`)
+* Model, an assignment of truth and false values to symbols
+
+The model checking algorithm looks as follows:
+
+```python
+def check_all(knowledge, query, symbols, model):
+
+    # If model has an assignment for each symbol
+    # (The logic below might be a little confusing: we start with a list of symbols. The function is recursive, and every time it calls itself it pops one symbol from the symbols list and generates models from it. Thus, when the symbols list is empty, we know that we finished generating models with every possible truth assignment of symbols.)
+    if not symbols:
+
+        # If knowledge base is true in model, then query must also be true
+        if knowledge.evaluate(model):
+            return query.evaluate(model)
+        return True
+    else:
+
+        # Choose one of the remaining unused symbols
+        remaining = symbols.copy()
+        p = remaining.pop()
+
+        # Create a model where the symbol is true
+        model_true = model.copy()
+        model_true[p] = True
+
+        # Create a model where the symbol is false
+        model_false = model.copy()
+        model_false[p] = False
+
+        # Ensure entailment holds in both models
+        return(check_all(knowledge, query, remaining, model_true) and check_all(knowledge, query, remaining, model_false))
+```
+
+Note that we are interested only in the models where the KB is true. If the KB is false, then the conditions that we know to be true are not occurring in these models, making them irrelevant to our case.
+
+Further, the way the `check_all` function works is recursive. That is, it picks one symbol, creates two models, in one of which the symbol is true and in the other the symbol is false, and then calls itself again, now with two models that differ by the truth assignment of this symbol. The function will keep doing so until all symbols will have been assigned truth-values in the models, leaving the list `symbols` empty. Once it is empty (as identified by the line `if not symbols`), in each instance of the function (wherein each instance holds a different model), the function checks whether the KB is true given the model. If the KB is true in this model, the function checks whether the query is true, as described earlier.
+
+## Knowledge Engineering
+
