@@ -242,3 +242,25 @@ Further, the way the `check_all` function works is recursive. That is, it picks 
 
 ## Knowledge Engineering
 
+Knowledge engineering is the process of figuring out how to represent propositions and logic in AI.
+
+Let's practice knowledge engineering using the game Clue.
+
+For our purposes, suppose we have three people: Mustard, Plum, and Scarlet, three tools: knife, revolver, and wrench, and three locations: ballroom, kitchen, and library.
+
+We can start creating our knowledge base by adding the rules of the game. We know for certain that one person is the murderer, that one tool was used, and that the murder happened in one location. This can be represented in propositional logic the following way:
+
+(Mustard ∨ Plum ∨ Scarlet)
+
+(knife ∨ revolver ∨ wrench)
+
+(ballroom ∨ kitchen ∨ library)
+
+The game starts with each player seeing one person, one tool, and one location, thus knowing that they are not related to the murder. Players do not share the information that the saw in these cards. Suppose our player gets the cards of Mustard, kitchen, and revolver. Thus, we know that these are not related to the murder and we can add to our KB
+
+¬(Mustard)
+
+¬(kitchen)
+
+¬(revolver)
+
