@@ -264,3 +264,114 @@ The game starts with each player seeing one person, one tool, and one location, 
 
 ¬(revolver)
 
+In other situations in the game, one can make a guess, suggesting one combination of person, tool and location. Suppose that the guess is that Scarlet used a wrench to commit the crime in the library. If this guess is wrong, then the following can be deduced and added to the KB:
+
+(¬Scarlet ∨ ¬library ∨ ¬wrench)
+
+Now, suppose someone shows us the Plum card. Thus, we can add
+
+¬(Plum)
+
+to our KB.
+
+At this point, we can conclude that the murderer is Scarlet, since it has to be one of Mustard, Plum, and Scarlet, and we have evidence that the first two are not it.
+
+Adding just one more piece of knowledge, for example, that it is not the ballroom, can give us more information. First, we update our KB
+
+¬(ballroom)
+
+And now, using multiple previous pieces of data, we can deduce that Scarlet committed the murder with a knife in the library. We can deduce that it’s the library because it has to be either the ballroom, the kitchen, or the library, and the first two were proven to not be the locations. However, when someone guessed Scarlet, library, wrench, the guess was false. Thus, at least one of the elements in this statement has to be false. Since we know both Scarlet and library to be true, we know that the wrench is the false part here. Since one of the three instruments has to be true, and it’s not the wrench nor the revolver, we can conclude that it is the knife.
+
+Here is how the information would be added to the knowledge base in Python:
+
+```python
+# Add the clues to the KB
+knowledge = And(
+
+    # Start with the game conditions: one item in each of the three categories has to be true.
+    Or(mustard, plum, scarlet),
+    Or(ballroom, kitchen, library),
+    Or(knife, revolver, wrench),
+
+    # Add the information from the three initial cards we saw
+    Not(mustard),
+    Not(kitchen),
+    Not(revolver),
+
+    # Add the guess someone made that it is Scarlet, who used a wrench in the library
+    Or(Not(scarlet), Not(library), Not(wrench)),
+
+    # Add the cards that we were exposed to
+    Not(plum),
+    Not(ballroom)
+)
+```
+
+We can look at other logic puzzles as well. Consider the following example: four different people, Gilderoy, Pomona, Minerva, and Horace, are assigned to four different houses, Gryffindor, Hufflepuff, Ravenclaw, and Slytherin. There is exactly one person in each house. Representing the puzzle’s conditions in propositional logic is quite cumbersome. First, each of the possible assignments will have to be a proposition in itself: MinervaGryffindor, MinervaHufflepuff, MinervaRavenclaw, MinervaSlytherin, PomonaGryffindor… Second, to represent that each person belongs to a house, an Or statement is required with all the possible house assignments per person
+
+(MinervaGryffindor ∨ MinervaHufflepuff ∨ MinervaRavenclaw ∨ MinervaSlytherin), repeat for every person.
+
+Then, to encode that if one person is assigned to one house, they are not assigned to the other houses, we will write
+
+(MinervaGryffindor → ¬MinervaHufflepuff) ∧ (MinervaGryffindor → ¬MinervaRavenclaw) ∧ (MinervaGryffindor → ¬MinervaSlytherin) ∧ (MinervaHufflepuff → ¬MinervaGryffindor)…
+
+and so on for all houses and all people. A solution to this inefficiency is offered in the section on [first order logic](https://cs50.harvard.edu/ai/2020/notes/1/#first-order-logic). However, this type of riddle can still be solved with either type of logic, given enough cues.
+
+```python
+from logic import *
+
+people = ["Gilderoy", "Pomona", "Minerva", "Horace"]
+houses = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
+
+symbols = []
+
+knowledge = And()
+
+for person in people:
+    for house in houses:
+        symbols.append(Symbol(f"{person}{house}"))
+
+# Each person belongs to a house.
+for person in people:
+    knowledge.add(Or(
+        Symbol(f"{person}Gryffindor"),
+        Symbol(f"{person}Hufflepuff"),
+        Symbol(f"{person}Ravenclaw"),
+        Symbol(f"{person}Slytherin")
+    ))
+
+# Only one house per person.
+for person in people:
+    for h1 in houses:
+        for h2 in houses:
+            if h1 != h2:
+                knowledge.add(
+                    Implication(Symbol(f"{person}{h1}"), Not(Symbol(f"{person}{h2}")))
+                )
+
+# Only one person per house.
+for house in houses:
+    for p1 in people:
+        for p2 in people:
+            if p1 != p2:
+                knowledge.add(
+                    Implication(Symbol(f"{p1}{house}"), Not(Symbol(f"{p2}{house}")))
+                )
+
+knowledge.add(
+    Or(Symbol("GilderoyGryffindor"), Symbol("GilderoyRavenclaw"))
+)
+
+knowledge.add(
+    Not(Symbol("PomonaSlytherin"))
+)
+
+knowledge.add(
+    Symbol("MinervaGryffindor")
+)
+
+for symbol in symbols:
+    if model_check(knowledge, symbol):
+        print(symbol)
+```
+
