@@ -80,7 +80,7 @@ def winner(board):
         diag_rev = []
         for i in range(3):
             diag.append(board[i][i])
-            diag_rev.append[board[2-i][i]]
+            diag_rev.append(board[i][2-i])
         if diag == [player]*3 or diag_rev == [player]*3:
             return player
     return None
@@ -115,4 +115,6 @@ def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
+
+
     raise NotImplementedError
