@@ -115,6 +115,24 @@ def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
-
+    if terminal(board):
+        return None
+    
+    # define max_value function     state: a board
+    def max_value(state):
+        if terminal(state):
+            return utility(state)
+        for action in actions(state):
+            v = max(v, min_value(result(state,action)))
+        return v
+    
+    # define min_value function
+    def min_value(state):
+        if terminal(state):
+            return utility(state)
+        for action in actions(state):
+            v = min(v, max_value(result(state,action)))
+        return v
+    
 
     raise NotImplementedError
