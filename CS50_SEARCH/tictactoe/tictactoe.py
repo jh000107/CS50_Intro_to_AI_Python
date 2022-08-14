@@ -120,7 +120,8 @@ def minimax(board):
     
     # define max_value function     state: a board
     def max_value(state):
-        if terminal(state):
+        v = -10 # negative inf
+        if terminal(state): 
             return utility(state)
         for action in actions(state):
             v = max(v, min_value(result(state,action)))
@@ -128,6 +129,7 @@ def minimax(board):
     
     # define min_value function
     def min_value(state):
+        v = 10 # positive inf
         if terminal(state):
             return utility(state)
         for action in actions(state):
