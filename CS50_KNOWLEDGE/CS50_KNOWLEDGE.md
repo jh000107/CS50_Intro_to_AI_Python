@@ -375,3 +375,158 @@ for symbol in symbols:
         print(symbol)
 ```
 
+## Inference Rules
+
+Model Checking is not an efficient algorithm because it has to consider every possible model before giving the answer. Inference rules allow us to generate new information based on existing knowledge without considering every possible model.
+
+Inference rules are usually represented using a horizontal bar that separates the top part, the premise, from the bottom part, the conclusion. The premise is whatever knowledge we have, and the conclusion is what knowledge can be generated based on the premise.
+
+![Modus Ponens Example](CS50_KNOWLEDGE.assets/modusponensexample.png)
+
+In this example, our premise consists of the following propositions:
+
+* If it is raining, then Harry is inside.
+* It is raining.
+
+Based on this, most reasonable humans can conclude that
+
+* Harry is inside.
+
+**Modus Ponens**
+
+The type of inference rule we use in this example is Modus Ponens, which is a fancy way of saying that if we know an implication and its antecedent to be true, then the consequent is true as well.
+
+![Modus Ponens](CS50_KNOWLEDGE.assets/modusponens.png)
+
+**And Elimination**
+
+If an And proposition is true, then any one atomic proposition within it is true as well. For example, if we know that Harry is friends with Ron and Hermione, we can conclude that Harry is friends with Hermione.
+
+![And Elimination](CS50_KNOWLEDGE.assets/andelimination.png)
+
+**Double Negation Elimination**
+
+A proposition that is negated twice is true.
+
+![Double Negation Elimination](CS50_KNOWLEDGE.assets/doublenegationelimination.png)
+
+**Implication Elimination**
+
+An implication is equivalent to an Or relation between the negated antecedent and the consequent.
+
+![Implication Elimination](CS50_KNOWLEDGE.assets/implicationelimination.png)
+
+Consider the following truth table:
+
+| P     | Q     | P → Q | ¬P ∨ Q |
+| ----- | ----- | ----- | ------ |
+| false | false | true  | true   |
+| false | true  | true  | true   |
+| true  | false | false | false  |
+| true  | true  | true  | true   |
+
+Since P → Q and ¬P ∨ Q have the same truth-value assignment, we know them to be equivalent logically. Another way to think about this is that an implication is true if either of two possible conditions is met: first, if the antecedent is false, the implication is trivially true (as discussed earlier, in the section on implication). This is represented by the negated antecedent P in ¬P ∨ Q, meaning that the proposition is always true if P is false. Second, the implication is true when the antecedent is true only when the consequent is true as well. That is, if P and Q are both true, then ¬P ∨ Q is true. However, if P is true and Q is not, then ¬P ∨ Q is false.
+
+**Biconditional Elimination**
+
+A biconditional proposition is equivalent to an implication and its inverse with an And connective.
+
+![Biconditional Elimination](CS50_KNOWLEDGE.assets/biconditionalelimination.png)
+
+**De Morgan's Law**
+
+It is possible to turn an And connective into an Or connective. Consider the following proposition: “It is not true that both Harry and Ron passed the test.” From this, it is possible to conclude that “It is not true that Harry passed the test” Or “It is not true that Ron passed the test.” That is, for the And proposition earlier to be true, at least one of the propositions in the Or propositions must be true.
+
+![De Morgan's 1](CS50_KNOWLEDGE.assets/demorgans1.png)
+
+Similarly, it is possible to conclude the reverse. Consider the proposition “It is not true that Harry or Ron passed the test.” This can be rephrased as “Harry did not pass the test” And “Ron did not pass the test.”
+
+![De Morgan's 2](CS50_KNOWLEDGE.assets/demorgans2.png)
+
+**Distributive Property**
+
+A proposition with two elements that are grouped with And or Or connectives can be distributed, or broken down into, smaller units consisting of And and Or.
+
+![Distributive 1](CS50_KNOWLEDGE.assets/distributive1.png)
+
+![Distributive 2](CS50_KNOWLEDGE.assets/distributive2.png)
+
+**Knowledge and Search Problems (Theorem Proving)** 
+
+Inference can be viewed as a search problem with the following properties:
+
+* Initial state: starting knowledge base
+* Actions: inference rules
+* Transition model: new knowledge base after inference
+* Goal test: checking whether the statement that we are trying to prove is in the KB
+* Path cost function: the number of steps in the proof
+
+## Resolution
+
+Resolution is a powerful inference rule that states that if one of two atomic propositions in an Or proposition is false, the other has to be true. For example, given the proposition “Ron is in the Great Hall” Or “Hermione is in the library”, in addition to the proposition “Ron is not in the Great Hall,” we can conclude that “Hermione is in the library.” More formally, we can define resolution the following way:
+
+![Resolution](CS50_KNOWLEDGE.assets/resolution1.png)
+
+Resolution relies on **Complementary Literals**, two of the same atomic propositions where one is negated and the other is not, such as P and ¬P.
+
+Resolution can be further generalized. Suppose that in addition to the proposition “Ron is in the Great Hall” Or “Hermione is in the library”, we also know that “Ron is not in the Great Hall” Or “Harry is sleeping.” We can infer from this, using resolution, that “Hermione is in the library” Or “Harry is sleeping.” To put it in formal terms:
+
+![Resolution](CS50_KNOWLEDGE.assets/resolution2.png)
+
+A **Clause** is a disjunction of literals (a propositional symbol or a negation of a propositional symbol, such as P, ¬P). A **disjunction** consists of propositions that are connected with an Or logical connective (P ∨ Q ∨ R). A **conjunction**, on the other hand, consists of propositions that are connected with an And logical connective (P ∧ Q ∧ R). Clauses allow us to convert any logical statement into a **Conjunctive Normal Form** (CNF), which is a conjunction of clauses, for example: (A ∨ B ∨ C) ∧ (D ∨ ¬E) ∧ (F ∨ G).
+
+**Steps in Conversion of Propositions to Conjunctive Normal Form**
+
+* Eliminate biconditionals
+  * Turn (α ↔ β) into (α → β) ∧ (β → α).
+* Eliminate implications
+  * Turn (α → β) into ¬α ∨ β.
+* Move negation inwards until only literals are being negated (and not clauses), using De Morgan’s Laws.
+  * Turn ¬(α ∧ β) into ¬α ∨ ¬β
+* Use distributive law to distribute ∨ wherever possible
+
+Here’s an example of converting (P ∨ Q) → R to Conjunctive Normal Form:
+
+* (P ∨ Q) → R
+* ¬(P ∨ Q) ∨ R /Eliminate implication
+* (¬P ∧ ¬Q) ∨ R /De Morgan’s Law
+* (¬P ∨ R) ∧ (¬Q ∨ R) /Distributive Law
+
+At this point, we can run an inference algorithm on the conjunctive normal form. Occasionally, through the process of inference by resolution, we might end up in cases where a clause contains the same literal twice. In these cases, a process called **factoring** is used, where the duplicate literal is removed. For example, (P ∨ Q ∨ S) ∧ (¬P ∨ R ∨ S) allow us to infer by resolution that (Q ∨ S ∨ R ∨ S). The duplicate S can be removed to give us (Q ∨ R ∨ S).
+
+Resolving a literal and its negation, i.e. ¬P and P, gives the **empty clause** (). The empty clause is always false, and this makes sense because it is impossible that both P and ¬P are true. This fact is used by the resolution algorithm.
+
+* To determine if KB ⊨ α:
+  * Check: is (KB ∧ ¬α) a contradiction?
+    - If so, then KB ⊨ α.
+    - Otherwise, no entailment.
+
+Proof by contradiction is a tool used often in computer science. If our knowledge base is true, and it contradicts ¬α, it means that ¬α is false, and, therefore, α must be true. More technically, the algorithm would perform the following actions:
+
+* To determine if KB ⊨ α:
+  - Convert (KB ∧ ¬α) to Conjunctive Normal Form.
+  - Keep checking to see if we can use resolution to produce a new clause.
+  - If we ever produce the empty clause (equivalent to False), congratulations! We have arrived at a contradiction, thus proving that KB ⊨ α.
+  - However, if contradiction is not achieved and no more clauses can be inferred, there is no entailment.
+
+Here is an example that illustrates how this algorithm might work:
+
+* Does (A ∨ B) ∧ (¬B ∨ C) ∧ (¬C) entail A?
+* First, to prove by contradiction, we assume that A is false. Thus, we arrive at (A ∨ B) ∧ (¬B ∨ C) ∧ (¬C) ∧ (¬A).
+* Now, we can start generating new information. Since we know that C is false (¬C), the only way (¬B ∨ C) can be true is if B is false, too. Thus, we can add (¬B) to our KB.
+* Next, since we know (¬B), the only way (A ∨ B) can be true is if A is true. Thus, we can add (A) to our KB.
+* Now our KB has two complementary literals, (A) and (¬A). We resolve them, arriving at the empty set, (). The empty set is false by definition, so we have arrived at a contradiction.
+
+## First Order Logic
+
+First order logic is another type of logic that allows us to express more complex ideas more succinctly than propositional logic. First order logic uses two types of symbols: *Constant Symbols* and *Predicate Symbols*. Constant symbols represent objects, while predicate symbols are like relations or functions that take an argument and return a true or false value.
+
+**Universal Quantification**
+
+Quantification is a tool that can be used in first order logic to represent sentences without using a specific constant symbol. Universal quantification uses the symbol ∀ to express “for all.” So, for example, the sentence ∀x. BelongsTo(x, Gryffindor) → ¬BelongsTo(x, Hufflepuff) expresses the idea that it is true for every symbol that if this symbol belongs to Gryffindor, it does not belong to Hufflepuff.
+
+**Existential Quantification**
+
+Existential quantification is an idea parallel to universal quantification. However, while universal quantification was used to create sentences that are true for all x, existential quantification is used to create sentences that are true for at least one x. It is expressed using the symbol ∃. For example, the sentence ∃x. House(x) ∧ BelongsTo(Minerva, x) means that there is at least one symbol that is both a house and that Minerva belongs to it. In other words, this expresses the idea that Minerva belongs to a house.
+
+Existential and universal quantification can be used in the same sentence. For example, the sentence ∀x. Person(x) → (∃y. House(y) ∧ BelongsTo(x, y)) expresses the idea that if x is a person, then there is at least one house, y, to which this person belongs. In other words, this sentence means that every person belongs to a house.
